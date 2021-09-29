@@ -85,14 +85,14 @@ const fileBytesConvert = (bytes, unit = "mb") => {
  * DATE: 29/Sept/2021
  * BY: Ashis Kumar Behera
  ************************************************************************************************/
-const strShorten = (text, len) => {
+export const strShorten = (text, len) => {
 	if (text.length > len) {
 		return text.substring(0, len) + "...";
 	}
 	return text;
 };
 
-const strShuffle = (word) => {
+export const strShuffle = (word) => {
 	var shuffledWord = "";
 	word = word.toString();
 	word = word.split("");
@@ -199,4 +199,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, mysqlQuery, mysqlProcedure, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
+// module.exports = { request, mysqlQuery, mysqlProcedure, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
