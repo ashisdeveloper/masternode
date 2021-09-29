@@ -1,6 +1,6 @@
-const mysql = require('serverless-mysql')
-import date from "date-and-time";
-import crypto from "crypto";
+const mysql = require("serverless-mysql");
+const date = require("date-and-time");
+const crypto = require("crypto");
 
 const request = async (url, data = {}, authorization = 0) => {
 	let method = Object.keys(data).length > 0 ? "POST" : "GET";
