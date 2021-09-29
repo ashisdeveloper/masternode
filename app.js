@@ -1,4 +1,4 @@
-import mysql from "serverless-mysql";
+const mysql = require('serverless-mysql')
 import date from "date-and-time";
 import crypto from "crypto";
 
