@@ -76,4 +76,4 @@ declare function mysqlDate(): string;
 declare function encrypt(text: string, key: string): Promise<any>;
 declare function decrypt(text: string, key: string): Promise<any>;
 
-export = strShorten;
+export = { strShorten };
