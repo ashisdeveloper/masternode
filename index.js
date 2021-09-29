@@ -146,7 +146,7 @@ const mysqlQuery = async (query, { host, user, password, database, port = 3306 }
 	}
 };
 
-const mysqlProcedure = async (procName, procAction, data = {}, debug = false) => {
+const mysqlProcedure = async (procName, procAction, data = {}, { host, user, password, database, port = 3306 }, debug = false) => {
 	let params = "";
 	if (Object.keys(data).length > 0) {
 		let arrkeys = Object.keys(data);
@@ -158,7 +158,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, debug = false) =>
 		params = "@p_empty='1'";
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
-	let result = await mysqlQuery(sql);
+	let result = await mysqlQuery(sql, { host, user, password, database, port });
 	result = JSON.stringify(result[0]);
 	result = JSON.parse(result);
 	return debug ? sql : result;
@@ -200,4 +200,3 @@ const decrypt = async (hash, key) => {
 };
 
 module.exports = { request, mysqlQuery, mysqlProcedure, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
-
