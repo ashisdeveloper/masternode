@@ -31,25 +31,7 @@ declare module "masternode" {
 			port?: number;
 		}
 	): Promise<any>;
-	function mysqlProcedure(
-		procName: string,
-		procAction: string,
-		data?: {},
-		{
-			host,
-			user,
-			password,
-			database,
-			port,
-		}: {
-			host: string;
-			user: string;
-			password: string;
-			database: string;
-			port?: number;
-		},
-		debug?: boolean
-	): Promise<any>;
+	function mysqlProcedure(procName: string, procAction: string, data?: {}, debug?: boolean): Promise<any>;
 	function mysqlDate(): string;
 
 	function encrypt(text: string, key: string): Promise<any>;

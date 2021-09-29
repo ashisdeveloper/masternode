@@ -126,7 +126,7 @@ const mysqlQuery = async (query, { host, user, password, database, port = 3306 }
 		config: { host, port, database, user, password },
 	});
 	try {
-		const results = await db.query(query);
+		let results = await db.query(query);
 		results = JSON.stringify(results);
 		results = JSON.parse(results);
 		results = results.map((item) => {
@@ -158,7 +158,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 		params = "@p_empty='1'";
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
-	let result = await mysqlQuery(sql, { host, user, password, database, port });
+	let result = await mysqlQuery(sql, { host, user, password, database, port= 3306});
 	result = JSON.stringify(result[0]);
 	result = JSON.parse(result);
 	return debug ? sql : result;
