@@ -1,9 +1,8 @@
 {
   "name": "masternode",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Node JS & Javascript functionalities",
   "main": "app",
-  "type": "module",
   "scripts": {
     "test": "ashis"
   },
