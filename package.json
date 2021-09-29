@@ -1,6 +1,6 @@
 {
   "name": "masternode",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Node JS & Javascript functionalities",
   "main": "app",
   "scripts": {
@@ -25,5 +25,9 @@
   "engines": {
     "node": ">= 8.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "date-and-time": "^2.0.0",
+    "serverless-mysql": "^1.5.4"
+  }
 }
