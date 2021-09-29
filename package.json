@@ -1,0 +1,29 @@
+{
+  "name": "masternode",
+  "version": "0.1.0",
+  "description": "Node JS & Javascript functionalities",
+  "main": "app",
+  "scripts": {
+    "test": "ashis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashisdeveloper/masternode.git"
+  },
+  "keywords": [
+    "javascript-library",
+    "node-library",
+    "masternode",
+    "js-library"
+  ],
+  "author": "Ashis Kumar <srimanashis@gmail.com> (https://www.softtechlab.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashisdeveloper/masternode/issues"
+  },
+  "homepage": "https://github.com/ashisdeveloper/masternode#readme",
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "dependencies": {}
+}
