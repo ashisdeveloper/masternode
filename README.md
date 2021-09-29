@@ -10,12 +10,42 @@ npm i masternode
 
 ## Getting Started
 
+### ENCRYPTION & DECRYPTION
+
+| Methods   | Description |
+| --------- | ----------- |
+| `encrypt` |             |
+| `decrypt` |             |
+
+### FILE HANDLELING
+
+| Methods            | Description |
+| ------------------ | ----------- |
+| `fileExtension`    |             |
+| `fileUpload`       |             |
+| `fileDelete`       |             |
+| `fileBytesConvert` |             |
+
+### MYSQL DATABASE HANDLELING
+
 | Methods          | Description |
 | ---------------- | ----------- |
-| `request`        |             |
-| `shortenText`    |             |
-| `fileExtension`  |             |
-| `shuffleStr`     |             |
-| `formatPhoneNum` |             |
-| `strToUrl`       |             |
-| `generateOtp`    |             |
+| `mysqlQuery`     |             |
+| `mysqlProcedure` |             |
+| `mysqlDate`      |             |
+
+### STRING METHODS
+
+| Methods      | Description |
+| ------------ | ----------- |
+| `strShorten` |             |
+| `strShuffle` |             |
+| `strUrl`     |             |
+| `strPhone`   |             |
+
+### OTHER METHODS
+
+| Methods                | Description |
+| ---------------------- | ----------- |
+| `request`              |             |
+| `generateRandomNumber` |             |
