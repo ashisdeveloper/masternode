@@ -158,7 +158,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 		params = "@p_empty='1'";
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
-	let result = await mysqlQuery(sql, { host, user, password, database, port= 3306});
+	let result = await mysqlQuery(sql, { host, user, password, database, port: 3306 });
 	result = JSON.stringify(result[0]);
 	result = JSON.parse(result);
 	return debug ? sql : result;
