@@ -33,6 +33,7 @@ declare module "masternode" {
 	): Promise<any>;
 	function mysqlProcedure(procName: string, procAction: string, data?: {}, debug?: boolean): Promise<any>;
 	function mysqlDate(): string;
+	function mysqlSanitizeData(data: any): any;
 
 	function encrypt(text: string, key: string): Promise<any>;
 	function decrypt(text: string, key: string): Promise<any>;

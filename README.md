@@ -28,11 +28,12 @@ npm i masternode
 
 ### MYSQL DATABASE HANDLELING
 
-| Methods          | Description |
-| ---------------- | ----------- |
-| `mysqlQuery`     |             |
-| `mysqlProcedure` |             |
-| `mysqlDate`      |             |
+| Methods             | Description |
+| ------------------- | ----------- |
+| `mysqlQuery`        |             |
+| `mysqlProcedure`    |             |
+| `mysqlDate`         |             |
+| `mysqlSanitizeData` |             |
 
 ### STRING METHODS
 

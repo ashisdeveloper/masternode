@@ -127,23 +127,28 @@ const mysqlQuery = async (query, { host, user, password, database, port = 3306 }
 	});
 	try {
 		let results = await db.query(query);
-		results = JSON.stringify(results);
-		results = JSON.parse(results);
-		results = results.map((item) => {
-			Object.keys(item).map((itm) => {
-				if (item[itm] == null) item[itm] = "";
-				try {
-					item[itm] = JSON.parse(item[itm]);
-				} catch (error) {}
-			});
-			return item;
-		});
+		results = mysqlSanitizeData(results);
 		await db.end();
 		return results;
 	} catch (error) {
 		console.log(error);
 		return { error };
 	}
+};
+
+const mysqlSanitizeData = (data) => {
+	data = JSON.stringify(data);
+	data = JSON.parse(data);
+	data = data.map((item) => {
+		Object.keys(item).map((itm) => {
+			if (item[itm] == null) item[itm] = "";
+			try {
+				item[itm] = JSON.parse(item[itm]);
+			} catch (error) {}
+		});
+		return item;
+	});
+	return data;
 };
 
 const mysqlProcedure = async (procName, procAction, data = {}, { host, user, password, database, port = 3306 }, debug = false) => {
@@ -159,8 +164,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
 	let result = await mysqlQuery(sql, { host, user, password, database, port: 3306 });
-	result = JSON.stringify(result[0]);
-	result = JSON.parse(result);
+	result = mysqlSanitizeData(result[0]);
 	return debug ? sql : result;
 };
 
@@ -199,4 +203,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, mysqlQuery, mysqlProcedure, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
+module.exports = { request, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
