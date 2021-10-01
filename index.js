@@ -153,7 +153,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	if (Object.keys(data).length > 0) {
 		let arrkeys = Object.keys(data);
 		arrkeys.forEach((el) => {
-			el = el.toString();
+			data[el] = data[el].toString();
 			params += "@p_" + el + "='" + data[el].trim().replace(/'/g, "''").replace(/\\/g, "\\\\\\\\").replace(/\"/g, '\\"') + "',";
 		});
 		params += "@p_debug=1";
