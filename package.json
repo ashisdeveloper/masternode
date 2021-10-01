@@ -1,6 +1,6 @@
 {
   "name": "masternode",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Node JS & Javascript functionalities",
   "main": "index.js",
   "scripts": {
@@ -22,10 +22,10 @@
     "url": "https://github.com/ashisdeveloper/masternode/issues"
   },
   "homepage": "https://github.com/ashisdeveloper/masternode#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "crypto": "^1.0.1",
     "date-and-time": "^2.0.0",
     "serverless-mysql": "^1.5.4"
-  }
+  },
+  "devDependencies": {}
 }

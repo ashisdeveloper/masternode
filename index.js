@@ -2,10 +2,6 @@
 import date from "date-and-time";
 import crypto from "crypto"; */
 
-const mysql = require("serverless-mysql");
-const date = require("date-and-time");
-const crypto = require("crypto");
-
 const request = async (url, data = {}, authorization = 0) => {
 	let method = Object.keys(data).length > 0 ? "POST" : "GET";
 	let result;
@@ -122,6 +118,7 @@ const strPhone = (str) => {
  * BY: Ashis Kumar Behera
  ************************************************************************************************/
 const mysqlQuery = async (query, { host, user, password, database, port = 3306 }) => {
+	const mysql = require("serverless-mysql");
 	const db = mysql({
 		config: { host, port, database, user, password },
 	});
@@ -170,6 +167,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 };
 
 const mysqlDate = () => {
+	const date = require("date-and-time");
 	const now = new Date();
 	return date.format(now, "YYYY-MM-DD HH:mm:ss", true);
 };
@@ -180,6 +178,7 @@ const mysqlDate = () => {
  * BY: Ashis Kumar Behera
  ************************************************************************************************/
 const encrypt = async (text, key) => {
+	const crypto = require("crypto");
 	const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
 	let iv = new Int8Array(16);
 	for (let i = 0; i < iv.length; i++) iv[i] = arr[i];
@@ -192,6 +191,7 @@ const encrypt = async (text, key) => {
 };
 
 const decrypt = async (hash, key) => {
+	const crypto = require("crypto");
 	const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
 	let iv = new Int8Array(16);
 	for (let i = 0; i < iv.length; i++) iv[i] = arr[i];
