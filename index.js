@@ -20,7 +20,7 @@ const request = async (url, data = {}, authorization = 0) => {
 	return finalResult;
 };
 
-const nextRequest = async (req, res, jwtkey) => {
+const nextRequest = async (req, res, methods, jwtkey,) => {
 	let reqData = { action: "", user_uid: 0, user_type: "" };
 	if (req.method == "POST") {
 		reqData = { ...reqData, ...req.body };
@@ -39,13 +39,12 @@ const nextRequest = async (req, res, jwtkey) => {
 	reqData.db_date = mysqlDate();
 
 	let data = "Invalid request", status = 200;
-	// reqData.action = ""
 	if (reqData.action != undefined && reqData.action != "") {
 		try {
-			let jscode = reqData.action + '(' + JSON.stringify(reqData) + ')'
-			data = await eval(jscode);
+			data = await methods[reqData.action](reqData)
 		} catch (error) {
 			status = 400;
+			data = "Internal server error"
 			console.log(error)
 		}
 	} else {
