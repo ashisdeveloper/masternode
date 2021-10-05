@@ -20,14 +20,13 @@ const request = async (url, data = {}, authorization = 0) => {
 	return finalResult;
 };
 
-const nextRequest = async (req, res) => {
-	const jwt = require('jsonwebtoken');
+const nextRequest = async (req, res, jwtkey) => {
 	let reqData = { action: "", user_uid: 0, user_type: "" };
 	if (req.method == "POST") {
 		reqData = { ...reqData, ...req.body };
-		let authorization = req.headers?.authorization || 0;
+		let authorization = req.headers.authorization || 0;
 		if (authorization != 0) {
-			var decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY);
+			var decoded = jwt.verify(req.headers.authorization, jwtkey);
 			if (decoded) {
 				reqData.user_uid = decoded.user_uid;
 				reqData.user_type = decoded.user_type;
@@ -37,18 +36,21 @@ const nextRequest = async (req, res) => {
 		reqData = { ...reqData, ...req.query };
 		reqData.action = req.query.request;
 	}
-	reqData.dbDate = mysqlDate();
+	reqData.db_date = mysqlDate();
 
 	let data = "Invalid request", status = 200;
-	try {
-		// eval(reqData.action + '(4);');
-		eval('var myfunc = ' + reqData.action);
-		data = await myfunc(reqData);
-	} catch (error) {
+	// reqData.action = ""
+	if (reqData.action != undefined && reqData.action != "") {
+		try {
+			let jscode = reqData.action + '(' + JSON.stringify(reqData) + ')'
+			data = await eval(jscode);
+		} catch (error) {
+			status = 400;
+			console.log(error)
+		}
+	} else {
 		status = 400;
-		// console.log(error)
 	}
-
 	res.status(status).json({ data });
 };
 
