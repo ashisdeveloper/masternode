@@ -27,13 +27,11 @@ const nextRequest = async (req, res) => {
 		reqData = { ...reqData, ...req.body };
 		let authorization = req.headers?.authorization || 0;
 		if (authorization != 0) {
-			try {
-				var decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY);
-				if (decoded) {
-					reqData.user_uid = decoded.user_uid;
-					reqData.user_type = decoded.user_type;
-				}
-			} catch (error) { }
+			var decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY);
+			if (decoded) {
+				reqData.user_uid = decoded.user_uid;
+				reqData.user_type = decoded.user_type;
+			}
 		}
 	} else if (req.method == "GET") {
 		reqData = { ...reqData, ...req.query };
