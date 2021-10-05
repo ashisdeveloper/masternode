@@ -20,6 +20,40 @@ const request = async (url, data = {}, authorization = 0) => {
 	return finalResult;
 };
 
+const nextRequest = async (req, res) => {
+	const jwt = require('jsonwebtoken');
+	let reqData = { action: "", user_uid: 0, user_type: "" };
+	if (req.method == "POST") {
+		reqData = { ...reqData, ...req.body };
+		let authorization = req.headers?.authorization || 0;
+		if (authorization != 0) {
+			try {
+				var decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY);
+				if (decoded) {
+					reqData.user_uid = decoded.user_uid;
+					reqData.user_type = decoded.user_type;
+				}
+			} catch (error) { }
+		}
+	} else if (req.method == "GET") {
+		reqData = { ...reqData, ...req.query };
+		reqData.action = req.query.request;
+	}
+	reqData.dbDate = mysqlDate();
+
+	let data = "Invalid request", status = 200;
+	try {
+		// eval(reqData.action + '(4);');
+		eval('var myfunc = ' + reqData.action);
+		data = await myfunc(reqData);
+	} catch (error) {
+		status = 400;
+		// console.log(error)
+	}
+
+	res.status(status).json({ data });
+};
+
 const generateRandomNumber = (len) => {
 	var text = "";
 	var possible = "123456789";
@@ -141,7 +175,7 @@ const mysqlSanitizeData = (data) => {
 			if (item[itm] == null) item[itm] = "";
 			try {
 				item[itm] = JSON.parse(item[itm]);
-			} catch (error) {}
+			} catch (error) { }
 		});
 		return item;
 	});
@@ -184,7 +218,7 @@ const encrypt = async (text, key) => {
 	for (let i = 0; i < iv.length; i++) iv[i] = arr[i];
 	try {
 		text = JSON.stringify(text);
-	} catch (error) {}
+	} catch (error) { }
 	const cipher = crypto.createCipheriv("aes-256-ctr", key, iv);
 	const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
 	return encrypted.toString("hex");
@@ -200,8 +234,8 @@ const decrypt = async (hash, key) => {
 	let result = decrpyted.toString();
 	try {
 		result = JSON.parse(result);
-	} catch (error) {}
+	} catch (error) { }
 	return result;
 };
 
-module.exports = { request, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
+module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };

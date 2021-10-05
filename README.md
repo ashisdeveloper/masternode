@@ -49,4 +49,5 @@ npm i masternode
 | Methods                | Description |
 | ---------------------- | ----------- |
 | `request`              |             |
+| `nextRequest`          |             |
 | `generateRandomNumber` |             |

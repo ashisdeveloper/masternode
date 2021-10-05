@@ -1,5 +1,6 @@
 declare module "masternode" {
 	function request(url: string, requestData?: {}, authorization?: any): Promise<any>;
+	function nextRequest(req: any, res: any): Promise<any>;
 	function generateRandomNumber(length: number): number;
 
 	function fileExtension(filename: string): string;
