@@ -7,7 +7,7 @@ declare module "masternode" {
 	function nextRequest(req: any, res: any, methods: any, jwtkey: string): Promise<any>;
 	function generateRandomNumber(length: number): number;
 	/**
-	 *
+	 * @param smtp Required { host, port, secure, user, password }
 	 * @param fromName Required
 	 * @param fromMail Required
 	 * @param toName Required
@@ -16,7 +16,31 @@ declare module "masternode" {
 	 * @param replyName Optional
 	 * @param replyMail Optional
 	 */
-	function sendTemplateMail(fromName: string, fromMail: string, toName: string, toMail: string, mailInfo = { subject, header, homepage, webname, logo, message, footer, powered }, replyName?: string, replyMail?: string): Promise<any>;
+	function sendTemplateMail(
+		smtp: {
+			host: string;
+			port: number;
+			secure: boolean;
+			user: string;
+			password: string;
+		},
+		fromName: string,
+		fromMail: string,
+		toName: string,
+		toMail: string,
+		mailInfo?: {
+			subject: string;
+			header: string;
+			homepage: string;
+			webname: string;
+			logo: string;
+			message: string;
+			footer: string;
+			powered: boolean;
+		},
+		replyName?: string,
+		replyMail?: string
+	): Promise<any>;
 
 	function fileExtension(filename: string): string;
 	/************************************************************************************************

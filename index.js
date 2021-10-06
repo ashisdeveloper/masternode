@@ -59,7 +59,7 @@ const generateRandomNumber = (len) => {
 	return Number(text);
 };
 
-const sendTemplateMail = async (fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
+const sendTemplateMail = async (smtp = { host, port, secure, user, password }, fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
 	const nodemailer = require("nodemailer");
 
 	let mailLogo = mailInfo.logo != `<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" valign="top" style="padding: 36px 24px;"> <a href="##HOMEPAGE##" target="_blank" style="display: inline-block;color: #000;font-size: 30px;text-decoration: none;"> <img width="300" src="##LOGO##" alt="##WEBNAME##"> </a> </td></tr></table> </td></tr>` ? mailInfo.logo : ''
@@ -75,12 +75,12 @@ const sendTemplateMail = async (fromName, fromMail, toName, toMail, mailInfo = {
 	newMailTemplate = newMailTemplate.replace(/##FOOTER##/gi, mailInfo.footer)
 
 	let transporter = nodemailer.createTransport({
-		host: process.env.EMAIL_HOST,
-		port: parseInt(process.env.EMAIL_PORT),
-		secure: false, // true for 465, false for other ports
+		host: smtp.host,
+		port: parseInt(smtp.port),
+		secure: smtp.secure, // true for 465, false for other ports
 		auth: {
-			user: process.env.EMAIL_ID,
-			pass: process.env.EMAIL_PASS
+			user: smtp.user,
+			pass: smtp.password
 		},
 	});
 	let mailStatus = 0;
