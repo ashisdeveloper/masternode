@@ -1,7 +1,3 @@
-/* import mysql from "serverless-mysql";
-import date from "date-and-time";
-import crypto from "crypto"; */
-
 const request = async (url, data = {}, authorization = 0) => {
 	let method = Object.keys(data).length > 0 ? "POST" : "GET";
 	let result;
@@ -61,6 +57,54 @@ const generateRandomNumber = (len) => {
 		text += i > 0 && sup == i ? "0" : possible.charAt(sup);
 	}
 	return Number(text);
+};
+
+const sendTemplateMail = async (fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
+	const nodemailer = require("nodemailer");
+
+	let mailLogo = mailInfo.logo != `<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" valign="top" style="padding: 36px 24px;"> <a href="##HOMEPAGE##" target="_blank" style="display: inline-block;color: #000;font-size: 30px;text-decoration: none;"> <img width="300" src="##LOGO##" alt="##WEBNAME##"> </a> </td></tr></table> </td></tr>` ? mailInfo.logo : ''
+	let mailFooter = mailInfo.footer != '' ? `<tr> <td align="left" bgcolor="#ffffff" style="padding: 24px; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf"> ##FOOTER##</p></td></tr>` : ''
+	let mailPowered = mailInfo.powered ? `<tr> <td align="center" bgcolor="#e9ecef" style="padding: 24px;"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-size: 14px; line-height: 20px; color: #666;"> <p style="margin: 0;">Powered by <a href="##HOMEPAGE##" target="_blank" style="color: #666;text-decoration: none;">##WEBNAME##</a></p></td></tr></table> </td></tr>` : ''
+	let newMailTemplate = `<!DOCTYPE html><html><head> <meta charset="utf-8"> <meta http-equiv="x-ua-compatible" content="ie=edge"> <title>##SUBJECT##</title> <meta name="viewport" content="width=device-width, initial-scale=1"> <style type="text/css"> body, table, td, a{-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;}table, td{mso-table-rspace: 0pt; mso-table-lspace: 0pt;}img{-ms-interpolation-mode: bicubic;}a[x-apple-data-detectors]{font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; color: inherit !important; text-decoration: none !important;}div[style*="margin: 16px 0;"]{margin: 0 !important;}body{width: 100% !important; height: 100% !important; padding: 0 !important; margin: 0 !important;}table{border-collapse: collapse !important;}a{color: #1a82e2;}img{height: auto; line-height: 100%; text-decoration: none; border: 0; outline: none;}</style></head><body style="background-color: #e9ecef;"> <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;"> ##HEADER##</div><div style="padding: 5px;"> <table border="0" cellpadding="0" cellspacing="0" width="100%">${mailLogo}<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="left" bgcolor="#ffffff" style="padding: 24px; font-size: 16px; line-height: 24px;">##MESSAGE##</td></tr>${mailFooter}${mailPowered}</table> </td></tr></table> </div></body></html>`;
+	newMailTemplate = newMailTemplate.replace(/##SUBJECT##/gi, mailInfo.subject)
+	newMailTemplate = newMailTemplate.replace(/##HEADER##/gi, mailInfo.header)
+	newMailTemplate = newMailTemplate.replace(/##HOMEPAGE##/gi, mailInfo.homepage)
+	newMailTemplate = newMailTemplate.replace(/##WEBNAME##/gi, mailInfo.webname)
+	newMailTemplate = newMailTemplate.replace(/##LOGO##/gi, mailInfo.logo)
+	newMailTemplate = newMailTemplate.replace(/##MESSAGE##/gi, mailInfo.message)
+	newMailTemplate = newMailTemplate.replace(/##FOOTER##/gi, mailInfo.footer)
+
+	let transporter = nodemailer.createTransport({
+		host: process.env.EMAIL_HOST,
+		port: parseInt(process.env.EMAIL_PORT),
+		secure: false, // true for 465, false for other ports
+		auth: {
+			user: process.env.EMAIL_ID,
+			pass: process.env.EMAIL_PASS
+		},
+	});
+	let mailStatus = 0;
+	try {
+		if (replyName == '' || replyMail == '')
+			await transporter.sendMail({
+				from: '"' + fromName + '" <' + fromMail + '>',
+				to: '"' + toName + '" <' + toMail + '>',
+				subject: mailInfo.subject,
+				text: "Please enable HTML to view this message",
+				html: mailInfo.message
+			});
+		else
+			await transporter.sendMail({
+				from: '"' + fromName + '" <' + fromMail + '>',
+				to: '"' + toName + '" <' + toMail + '>',
+				replyTo: '"' + replyName + '" <' + replyMail + '>',
+				subject: mailInfo.subject,
+				text: "Please enable HTML to view this message",
+				html: mailInfo.message
+			});
+		mailStatus = 1
+	} catch (error) { }
+	return mailStatus
 };
 
 /************************************************************************************************
@@ -239,4 +283,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber };
+module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, sendTemplateMail };
