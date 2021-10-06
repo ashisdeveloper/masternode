@@ -59,7 +59,7 @@ const generateRandomNumber = (len) => {
 	return Number(text);
 };
 
-const sendTemplateMail = async (smtp = { host, port, secure, user, password }, fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
+const mail = async (smtp = { host, port, secure, user, password }, fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
 	const nodemailer = require("nodemailer");
 
 	let mailLogo = mailInfo.logo != `<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" valign="top" style="padding: 36px 24px;"> <a href="##HOMEPAGE##" target="_blank" style="display: inline-block;color: #000;font-size: 30px;text-decoration: none;"> <img width="300" src="##LOGO##" alt="##WEBNAME##"> </a> </td></tr></table> </td></tr>` ? mailInfo.logo : ''
@@ -283,4 +283,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, sendTemplateMail };
+module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };

@@ -50,4 +50,5 @@ npm i masternode
 | ---------------------- | ----------- |
 | `request`              |             |
 | `nextRequest`          |             |
+| `mail`                 |             |
 | `generateRandomNumber` |             |

@@ -16,7 +16,7 @@ declare module "masternode" {
 	 * @param replyName Optional
 	 * @param replyMail Optional
 	 */
-	function sendTemplateMail(
+	function mail(
 		smtp: {
 			host: string;
 			port: number;
