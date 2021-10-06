@@ -212,9 +212,10 @@ const mysqlDate = () => {
  ************************************************************************************************/
 const encrypt = async (text, key) => {
 	const crypto = require("crypto");
-	const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
+	/* const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
 	let iv = new Int8Array(16);
-	for (let i = 0; i < iv.length; i++) iv[i] = arr[i];
+	for (let i = 0; i < iv.length; i++) iv[i] = arr[i]; */
+	let iv = Buffer.alloc(16);
 	try {
 		text = JSON.stringify(text);
 	} catch (error) { }
@@ -225,9 +226,10 @@ const encrypt = async (text, key) => {
 
 const decrypt = async (hash, key) => {
 	const crypto = require("crypto");
-	const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
+	/* const arr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 15, 25, 35, 45, 55, 65, 75];
 	let iv = new Int8Array(16);
-	for (let i = 0; i < iv.length; i++) iv[i] = arr[i];
+	for (let i = 0; i < iv.length; i++) iv[i] = arr[i]; */
+	let iv = Buffer.alloc(16);
 	const decipher = crypto.createDecipheriv("aes-256-ctr", key, Buffer.from(iv.toString("hex"), "hex"));
 	const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash, "hex")), decipher.final()]);
 	let result = decrpyted.toString();
