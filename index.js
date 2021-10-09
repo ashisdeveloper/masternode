@@ -17,7 +17,7 @@ const request = async (url, data = {}, authorization = 0) => {
 };
 
 const nextRequest = async (req, res, methods, jwtkey,) => {
-	let reqData = { action: "", user_uid: 0, user_type: "" };
+	let reqData = { action: "", user_uid: 0 };
 	if (req.method == "POST") {
 		reqData = { ...reqData, ...req.body };
 		let authorization = req.headers.authorization || 0;
@@ -25,7 +25,6 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 			var decoded = jwt.verify(req.headers.authorization, jwtkey);
 			if (decoded) {
 				reqData.user_uid = decoded.user_uid;
-				reqData.user_type = decoded.user_type;
 			}
 		}
 	} else if (req.method == "GET") {
@@ -48,6 +47,20 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 	}
 	res.status(status).json({ data });
 };
+
+const userPermissions = async (api, token) => {
+	token = token || 0
+	if (token) {
+		let result = await request(`${api}`, { action: "userPermissions" }, token);
+		if (Object.keys(result.data).length == 0) {
+			return { status: 400, data: result.data };
+		} else {
+			return { status: 200, data: result.data };
+		}
+	} else {
+		return { status: 400, data: {} };
+	}
+}
 
 const generateRandomNumber = (len) => {
 	var text = "";
@@ -283,4 +296,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };

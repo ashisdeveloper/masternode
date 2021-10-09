@@ -50,5 +50,6 @@ npm i masternode
 | ---------------------- | ----------- |
 | `request`              |             |
 | `nextRequest`          |             |
+| `userPermissions`      |             |
 | `mail`                 |             |
 | `generateRandomNumber` |             |
