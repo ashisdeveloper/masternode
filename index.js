@@ -22,6 +22,7 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 		reqData = { ...reqData, ...req.body };
 		let authorization = req.headers.authorization || 0;
 		if (authorization != 0) {
+			const jwt = require("jsonwebtoken")
 			var decoded = jwt.verify(req.headers.authorization, jwtkey);
 			if (decoded) {
 				reqData.user_uid = decoded.user_uid;
