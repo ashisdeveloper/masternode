@@ -257,6 +257,35 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	return debug ? sql : result;
 };
 
+const mysqlTableData = async (reqData, procName, procAction, { host, user, password, database, port = 3306 }) => {
+	let start_rec = (reqData.page - 1) * reqData.limit;
+	let filters = {}
+	if (Object.keys(reqData).length > 0)
+		Object.keys(reqData).map((item) => {
+			if (/^filter_.*/gi.test(item)) {
+				filters[item] = reqData[item].trim()
+			}
+		})
+	let total_rec = await mysqlProcedure(
+		procName,
+		procAction + '_TOTAL',
+		{
+			start_rec,
+			limit_rec: reqData.limit, ...filters
+		}, { host, user, password, database, port = 3306 }
+	);
+	total_rec = total_rec[0].total;
+	let sqlData = await mysqlProcedure(
+		procName,
+		procAction,
+		{
+			start_rec,
+			limit_rec: reqData.limit, ...filters
+		}, { host, user, password, database, port = 3306 }
+	);
+	return { data: sqlData, total: total_rec }
+}
+
 const mysqlDate = () => {
 	const date = require("date-and-time");
 	const now = new Date();
@@ -297,4 +326,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };

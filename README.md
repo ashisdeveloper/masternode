@@ -32,6 +32,7 @@ npm i masternode
 | ------------------- | ----------- |
 | `mysqlQuery`        |             |
 | `mysqlProcedure`    |             |
+| `mysqlTableData`    |             |
 | `mysqlDate`         |             |
 | `mysqlSanitizeData` |             |
 

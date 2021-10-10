@@ -91,6 +91,28 @@ declare module "masternode" {
 		},
 		debug?: boolean
 	): Promise<any>;
+	function mysqlTableData(
+		reqData: {},
+		procName: string,
+		procAction: string,
+		{
+			host,
+			user,
+			password,
+			database,
+			port,
+		}: {
+			host: string;
+			user: string;
+			password: string;
+			database: string;
+			port?: number;
+		}
+	): Promise<{
+		data: any;
+		total: number;
+	}>;
+
 	function mysqlDate(): string;
 	function mysqlSanitizeData(data: any): any;
 
