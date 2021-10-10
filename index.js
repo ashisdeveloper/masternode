@@ -142,11 +142,12 @@ const fileUpload = async (apiUrl, dirName, file, options = {}) => {
 		body: formData,
 	});
 	let res2 = await res1.json();
-	return res2.responseCode == 200 ? res2.file : "";
+	return res2.responseCode == 200 ? '/uploads/' + res2.file : "";
 };
 
 const fileDelete = async (apiUrl, file) => {
 	apiUrl = apiUrl.replace(/\/$/gi, "");
+	file = file.replace(/^\/uploads\//gi,'')
 	await fetch(apiUrl + "/delete-file", {
 		method: "POST",
 		headers: {
