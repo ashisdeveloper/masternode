@@ -252,7 +252,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 		params = "@p_empty='1'";
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
-	let result = await mysqlQuery(sql, { host, user, password, database, port: 3306 });
+	let result = await mysqlQuery(sql, { host, user, password, database, port });
 	result = mysqlSanitizeData(result[0]);
 	return debug ? sql : result;
 };
@@ -272,7 +272,7 @@ const mysqlTableData = async (reqData, procName, procAction, { host, user, passw
 		{
 			start_rec,
 			limit_rec: reqData.limit, ...filters
-		}, { host, user, password, database, port = 3306 }
+		}, { host, user, password, database, port }
 	);
 	total_rec = total_rec[0].total;
 	let sqlData = await mysqlProcedure(
@@ -281,7 +281,7 @@ const mysqlTableData = async (reqData, procName, procAction, { host, user, passw
 		{
 			start_rec,
 			limit_rec: reqData.limit, ...filters
-		}, { host, user, password, database, port = 3306 }
+		}, { host, user, password, database, port }
 	);
 	return { data: sqlData, total: total_rec }
 }
