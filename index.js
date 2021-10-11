@@ -208,21 +208,6 @@ const strPhone = (str) => {
  * DATE: 29/Sept/2021
  * BY: Ashis Kumar Behera
  ************************************************************************************************/
-const mysqlQuery = async (query, { host, user, password, database, port = 3306 }) => {
-	const mysql = require("serverless-mysql");
-	const db = mysql({
-		config: { host, port, database, user, password },
-	});
-	try {
-		let results = await db.query(query);
-		results = mysqlSanitizeData(results);
-		await db.end();
-		return results;
-	} catch (error) {
-		console.log(error);
-		return { error };
-	}
-};
 
 const mysqlSanitizeData = (data) => {
 	data = JSON.stringify(data);
@@ -239,6 +224,23 @@ const mysqlSanitizeData = (data) => {
 	return data;
 };
 
+const mysqlQuery = async (query, { host, user, password, database, port = 3306 }) => {
+	const mysql = require("serverless-mysql");
+	const db = mysql({
+		config: { host, port, database, user, password },
+	});
+	try {
+		let results = await db.query(query);
+		if (results.length > 0)
+			results = mysqlSanitizeData(results);
+		await db.end();
+		return results;
+	} catch (error) {
+		console.log(error);
+		return { error };
+	}
+};
+
 const mysqlProcedure = async (procName, procAction, data = {}, { host, user, password, database, port = 3306 }, debug = false) => {
 	let params = "";
 	if (Object.keys(data).length > 0) {
@@ -253,7 +255,10 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
 	let result = await mysqlQuery(sql, { host, user, password, database, port });
-	result = mysqlSanitizeData(result[0]);
+	/* if (typeof result == 'object') {
+		if (result.length > 0)
+			result = mysqlSanitizeData(result[0]);
+	} */
 	return debug ? sql : result;
 };
 
