@@ -231,8 +231,7 @@ const mysqlQuery = async (query, { host, user, password, database, port = 3306 }
 	});
 	try {
 		let results = await db.query(query);
-		if (results.length > 0)
-			results = mysqlSanitizeData(results);
+		results = mysqlSanitizeData(results);
 		await db.end();
 		return results;
 	} catch (error) {
