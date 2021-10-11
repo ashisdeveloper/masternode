@@ -210,17 +210,19 @@ const strPhone = (str) => {
  ************************************************************************************************/
 
 const mysqlSanitizeData = (data) => {
-	data = JSON.stringify(data);
-	data = JSON.parse(data);
-	data = data.map((item) => {
-		Object.keys(item).map((itm) => {
-			if (item[itm] == null) item[itm] = "";
-			try {
-				item[itm] = JSON.parse(item[itm]);
-			} catch (error) { }
+	try {
+		data = JSON.stringify(data);
+		data = JSON.parse(data);
+		data = data.map((item) => {
+			Object.keys(item).map((itm) => {
+				if (item[itm] == null) item[itm] = "";
+				try {
+					item[itm] = JSON.parse(item[itm]);
+				} catch (error) { }
+			});
+			return item;
 		});
-		return item;
-	});
+	} catch (error) { }
 	return data;
 };
 
@@ -254,10 +256,7 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
 	let result = await mysqlQuery(sql, { host, user, password, database, port });
-	if (typeof result[0] == 'object') {
-		if (result[0].length > 0)
-			result = mysqlSanitizeData(result[0]);
-	}
+	result = mysqlSanitizeData(result[0]);
 	return debug ? sql : result;
 };
 
