@@ -254,10 +254,10 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	}
 	let sql = `CALL ${procName}('${procAction}', "${params}")`;
 	let result = await mysqlQuery(sql, { host, user, password, database, port });
-	/* if (typeof result == 'object') {
-		if (result.length > 0)
+	if (typeof result[0] == 'object') {
+		if (result[0].length > 0)
 			result = mysqlSanitizeData(result[0]);
-	} */
+	}
 	return debug ? sql : result;
 };
 
