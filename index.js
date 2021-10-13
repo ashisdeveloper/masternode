@@ -168,7 +168,7 @@ const fileBytesConvert = (bytes, unit = "mb") => {
 };
 
 /************************************************************************************************
- * MYSQL
+ * STRING
  * DATE: 29/Sept/2021
  * BY: Ashis Kumar Behera
  ************************************************************************************************/
@@ -255,7 +255,13 @@ const mysqlProcedure = async (procName, procAction, data = {}, { host, user, pas
 	if (Object.keys(data).length > 0) {
 		let arrkeys = Object.keys(data);
 		arrkeys.forEach((el) => {
-			data[el] = data[el].toString();
+			if (typeof data[el] == 'object') {
+				try {
+					data[el] = JSON.stringify(data[el])
+				} catch (error) { }
+			} else {
+				data[el] = data[el].toString();
+			}
 			params += "@p_" + el + "='" + data[el].trim().replace(/'/g, "''").replace(/\\/g, "\\\\\\\\").replace(/\"/g, '\\"') + "',";
 		});
 		params += "@p_debug=1";
