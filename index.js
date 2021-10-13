@@ -195,12 +195,20 @@ const strUrl = (str) => {
 };
 
 const strPhone = (str) => {
+	str = str.toString()
+	str = str.replace(/[^\d]*/gi, '')
+	console.log(str)
+	if (str.length < 10) {
+		return ''
+	}
 	let no = str.slice(-10);
 	let ext = str.replace(no, "");
 	let no1 = no.slice(0, 3);
 	let no2 = no.slice(3, 6);
 	let no3 = no.slice(6, 10);
-	return ext + " " + "(" + no1 + ")" + " " + no2 + "-" + no3;
+	let result = ext + " " + "(" + no1 + ")" + " " + no2 + "-" + no3;
+	if (str.length > 10) result = '+' + result
+	return result.trim()
 };
 
 /************************************************************************************************
