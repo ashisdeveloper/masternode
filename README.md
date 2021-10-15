@@ -53,4 +53,5 @@ npm i masternode
 | `nextRequest`          |             |
 | `userPermissions`      |             |
 | `mail`                 |             |
+| `checkSMTP`            |             |
 | `generateRandomNumber` |             |

@@ -73,6 +73,30 @@ const generateRandomNumber = (len) => {
 	return Number(text);
 };
 
+const checkSMTP = async ({ host = "", port = 587, user = "", pass = "", secure = false }) => {
+	const nodemailer = require("nodemailer");
+	let transporter = nodemailer.createTransport({
+		host,
+		port,
+		secure, // true for 465, false for other ports
+		auth: {
+			user,
+			pass
+		},
+	});
+
+	let result = await new Promise((resolve, reject) => {
+		transporter.verify(function (error, success) {
+			if (error) {
+				resolve(false)
+			} else {
+				resolve(true)
+			}
+		});
+	})
+	return result
+}
+
 const mail = async (smtp = { host, port, secure, user, password }, fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
 	const nodemailer = require("nodemailer");
 
@@ -343,4 +367,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail, checkSMTP };

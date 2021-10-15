@@ -43,6 +43,8 @@ declare module "masternode" {
 		replyMail?: string
 	): Promise<any>;
 
+	function checkSMTP({ host, port, user, pass, secure }: { host?: string; port?: number; user?: string; pass?: string; secure?: boolean }): Promise<any>;
+
 	function fileExtension(filename: string): string;
 	/************************************************************************************************
 	 * options = { width: 200, height: null, quality: 50, keepOriginal: 0, pretext: 'min' }
