@@ -47,11 +47,11 @@ npm i masternode
 
 ### OTHER METHODS
 
-| Methods                | Description |
-| ---------------------- | ----------- |
-| `request`              |             |
-| `nextRequest`          |             |
-| `userPermissions`      |             |
-| `mail`                 |             |
-| `checkSMTP`            |             |
-| `generateRandomNumber` |             |
+| Methods           | Description |
+| ----------------- | ----------- |
+| `request`         |             |
+| `nextRequest`     |             |
+| `userPermissions` |             |
+| `mail`            |             |
+| `checkSMTP`       |             |
+| `randomNumber`    |             |

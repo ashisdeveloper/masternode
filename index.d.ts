@@ -6,7 +6,7 @@ declare module "masternode" {
 	 */
 	function nextRequest(req: any, res: any, methods: any, jwtkey: string): Promise<any>;
 	function userPermissions(api: string, token?: string): Promise<any>;
-	function generateRandomNumber(length: number): number;
+	function randomNumber(length: number): number;
 	/**
 	 * @param smtp Required { host, port, secure, user, password }
 	 * @param fromName Required
