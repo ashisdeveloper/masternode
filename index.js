@@ -49,10 +49,10 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 	res.status(status).json({ data });
 };
 
-const userPermissions = async (api, token) => {
+const userPermissions = async (api, token = 0, data = {}) => {
 	token = token || 0
 	if (token) {
-		let result = await request(`${api}`, { action: "userPermissions" }, token);
+		let result = await request(`${api}`, { action: "userPermissions", ...data }, token);
 		if (Object.keys(result.data).length == 0) {
 			return { status: 400, data: result.data };
 		} else {

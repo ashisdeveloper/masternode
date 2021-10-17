@@ -1,6 +1,6 @@
 {
   "name": "masternode",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Node JS & Javascript functionalities",
   "main": "index.js",
   "scripts": {
