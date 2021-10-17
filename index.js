@@ -63,7 +63,7 @@ const userPermissions = async (api, token) => {
 	}
 }
 
-const generateRandomNumber = (len) => {
+const randomNumber = (len) => {
 	var text = "";
 	var possible = "123456789";
 	for (var i = 0; i < len; i++) {
@@ -367,4 +367,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, generateRandomNumber, mail, checkSMTP };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, randomNumber, mail, checkSMTP };
