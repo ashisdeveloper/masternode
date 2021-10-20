@@ -145,6 +145,18 @@ const mail = async (smtp = { host, port, secure, user, password }, fromName, fro
 	return mailStatus
 };
 
+const localDateTime = (dateTime, dtFormat = 'DD MMM YYYY hh:mm A') => {
+	let result = ''
+	if (dateTime != '' && dateTime != undefined && dateTime != null) {
+		const date = require("date-and-time");
+		let dt = date.format(new Date(dateTime), 'YYYY-MM-DDTHH:mm:ss.000');
+		dt = dt.replace(/\+.*/, '') + 'Z';
+		let newDt = new Date(dt);
+		result = date.format(newDt, dtFormat)
+	}
+	return result;
+}
+
 /************************************************************************************************
  * FILE HANDELING
  * DATE: 29/Sept/2021
@@ -367,4 +379,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, randomNumber, mail, checkSMTP };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, randomNumber, mail, checkSMTP, localDateTime };
