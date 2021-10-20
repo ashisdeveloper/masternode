@@ -8,40 +8,22 @@ declare module "masternode" {
 	function userPermissions(api: string, token?: string, data?: {}): Promise<any>;
 	function randomNumber(length: number): number;
 	/**
-	 * @param smtp Required { host, port, secure, user, password }
-	 * @param fromName Required
-	 * @param fromMail Required
-	 * @param toName Required
-	 * @param toMail Required
-	 * @param mailInfo Required { subject, header, homepage, webname, logo, message, footer, powered }
-	 * @param replyName Optional
-	 * @param replyMail Optional
+	 * @param smtp [ host, port, user, pass ]
+	 * @param from [ name, email ]
+	 * @param to [ name, email ]
+	 * @param info [ subject, message ]
+	 * @param reply [ name, email ] - OPTIONAL
 	 */
 	function mail(
-		smtp: {
-			host: string;
-			port: number;
-			secure: boolean;
-			user: string;
-			password: string;
-		},
-		fromName: string,
-		fromMail: string,
-		toName: string,
-		toMail: string,
-		mailInfo?: {
-			subject: string;
-			header: string;
-			homepage: string;
-			webname: string;
-			logo: string;
-			message: string;
-			footer: string;
-			powered: boolean;
-		},
-		replyName?: string,
-		replyMail?: string
-	): Promise<any>;
+		smtp: (string | number)[],
+		from: string[],
+		to: string[],
+		info: string[],
+		reply?: string[]
+	): Promise<{
+		status: number;
+		message: string;
+	}>;
 
 	function checkSMTP({ host, port, user, pass, secure }: { host?: string; port?: number; user?: string; pass?: string; secure?: boolean }): Promise<any>;
 

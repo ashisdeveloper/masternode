@@ -97,52 +97,43 @@ const checkSMTP = async ({ host = "", port = 587, user = "", pass = "", secure =
 	return result
 }
 
-const mail = async (smtp = { host, port, secure, user, password }, fromName, fromMail, toName, toMail, mailInfo = { subject: '', header: '', homepage: '', webname: '', logo: '', message: '', footer: '', powered: false }, replyName = '', replyMail = '') => {
+const mail = async (smtp = ['', 587, '', ''], from = ['', ''], to = ['', ''], info = ['', ''], reply = ['', '']) => {
 	const nodemailer = require("nodemailer");
-
-	let mailLogo = mailInfo.logo != `<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" valign="top" style="padding: 36px 24px;"> <a href="##HOMEPAGE##" target="_blank" style="display: inline-block;color: #000;font-size: 30px;text-decoration: none;"> <img width="300" src="##LOGO##" alt="##WEBNAME##"> </a> </td></tr></table> </td></tr>` ? mailInfo.logo : ''
-	let mailFooter = mailInfo.footer != '' ? `<tr> <td align="left" bgcolor="#ffffff" style="padding: 24px; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf"> ##FOOTER##</p></td></tr>` : ''
-	let mailPowered = mailInfo.powered ? `<tr> <td align="center" bgcolor="#e9ecef" style="padding: 24px;"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-size: 14px; line-height: 20px; color: #666;"> <p style="margin: 0;">Powered by <a href="##HOMEPAGE##" target="_blank" style="color: #666;text-decoration: none;">##WEBNAME##</a></p></td></tr></table> </td></tr>` : ''
-	let newMailTemplate = `<!DOCTYPE html><html><head> <meta charset="utf-8"> <meta http-equiv="x-ua-compatible" content="ie=edge"> <title>##SUBJECT##</title> <meta name="viewport" content="width=device-width, initial-scale=1"> <style type="text/css"> body, table, td, a{-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;}table, td{mso-table-rspace: 0pt; mso-table-lspace: 0pt;}img{-ms-interpolation-mode: bicubic;}a[x-apple-data-detectors]{font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; color: inherit !important; text-decoration: none !important;}div[style*="margin: 16px 0;"]{margin: 0 !important;}body{width: 100% !important; height: 100% !important; padding: 0 !important; margin: 0 !important;}table{border-collapse: collapse !important;}a{color: #1a82e2;}img{height: auto; line-height: 100%; text-decoration: none; border: 0; outline: none;}</style></head><body style="background-color: #e9ecef;"> <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;"> ##HEADER##</div><div style="padding: 5px;"> <table border="0" cellpadding="0" cellspacing="0" width="100%">${mailLogo}<tr> <td align="center" bgcolor="#e9ecef"> <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 800px;"> <tr> <td align="left" bgcolor="#ffffff" style="padding: 24px; font-size: 16px; line-height: 24px;">##MESSAGE##</td></tr>${mailFooter}${mailPowered}</table> </td></tr></table> </div></body></html>`;
-	newMailTemplate = newMailTemplate.replace(/##SUBJECT##/gi, mailInfo.subject)
-	newMailTemplate = newMailTemplate.replace(/##HEADER##/gi, mailInfo.header)
-	newMailTemplate = newMailTemplate.replace(/##HOMEPAGE##/gi, mailInfo.homepage)
-	newMailTemplate = newMailTemplate.replace(/##WEBNAME##/gi, mailInfo.webname)
-	newMailTemplate = newMailTemplate.replace(/##LOGO##/gi, mailInfo.logo)
-	newMailTemplate = newMailTemplate.replace(/##MESSAGE##/gi, mailInfo.message)
-	newMailTemplate = newMailTemplate.replace(/##FOOTER##/gi, mailInfo.footer)
-
 	let transporter = nodemailer.createTransport({
-		host: smtp.host,
-		port: parseInt(smtp.port),
-		secure: smtp.secure, // true for 465, false for other ports
+		host: smtp[0],
+		port: parseInt(smtp[1]),
+		secure: smtp[1] == 465 ? true : false,
 		auth: {
-			user: smtp.user,
-			pass: smtp.password
+			user: smtp[2],
+			pass: smtp[3]
 		},
 	});
-	let mailStatus = 0;
+	let status = 0;
+	let message = 'Sent'
 	try {
-		if (replyName == '' || replyMail == '')
+		if (reply[0] != '' && reply[1] != '') {
 			await transporter.sendMail({
-				from: '"' + fromName + '" <' + fromMail + '>',
-				to: '"' + toName + '" <' + toMail + '>',
-				subject: mailInfo.subject,
+				from: '"' + from[0] + '" <' + from[1] + '>',
+				to: '"' + to[0] + '" <' + to[1] + '>',
+				replyTo: '"' + reply[0] + '" <' + reply[1] + '>',
+				subject: info[0],
 				text: "Please enable HTML to view this message",
-				html: mailInfo.message
+				html: info[1]
 			});
-		else
+		} else {
 			await transporter.sendMail({
-				from: '"' + fromName + '" <' + fromMail + '>',
-				to: '"' + toName + '" <' + toMail + '>',
-				replyTo: '"' + replyName + '" <' + replyMail + '>',
-				subject: mailInfo.subject,
+				from: '"' + from[0] + '" <' + from[1] + '>',
+				to: '"' + to[0] + '" <' + to[1] + '>',
+				subject: info[0],
 				text: "Please enable HTML to view this message",
-				html: mailInfo.message
+				html: info[1]
 			});
-		mailStatus = 1
-	} catch (error) { }
-	return mailStatus
+		}
+		status = 1
+	} catch (error) {
+		message = 'Failure: ' + error.response
+	}
+	return { status, message }
 };
 
 const localDateTime = (dateTime, dtFormat = 'DD MMM YYYY hh:mm A') => {
