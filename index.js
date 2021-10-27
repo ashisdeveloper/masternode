@@ -25,7 +25,10 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 			const jwt = require("jsonwebtoken")
 			var decoded = jwt.verify(req.headers.authorization, jwtkey);
 			if (decoded) {
-				reqData.user_uid = decoded.user_uid;
+				Object.keys(decoded).map(key => {
+					reqData = { ...reqData, key: decoded[key] }
+				})
+				// reqData.user_uid = decoded.user_uid;
 			}
 		}
 	} else if (req.method == "GET") {
@@ -224,7 +227,6 @@ const strUrl = (str) => {
 const strPhone = (str) => {
 	str = str.toString()
 	str = str.replace(/[^\d]*/gi, '')
-	console.log(str)
 	if (str.length < 10) {
 		return ''
 	}
