@@ -26,7 +26,7 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 			var decoded = jwt.verify(req.headers.authorization, jwtkey);
 			if (decoded) {
 				Object.keys(decoded).map(key => {
-					reqData = { ...reqData, key: decoded[key] }
+					reqData = { ...reqData, [key]: decoded[key] }
 				})
 				// reqData.user_uid = decoded.user_uid;
 			}
