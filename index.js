@@ -36,6 +36,7 @@ const nextRequest = async (req, res, methods, jwtkey,) => {
 		reqData.action = req.query.request;
 	}
 	reqData.db_date = mysqlDate();
+	reqData.local_date = mysqlDate(false);
 
 	let data = "Invalid request", status = 200;
 	if (reqData.action != undefined && reqData.action != "") {
@@ -332,10 +333,10 @@ const mysqlTableData = async (reqData, procName, procAction, { host, user, passw
 	return { data: sqlData, total: total_rec }
 }
 
-const mysqlDate = () => {
+const mysqlDate = (utc = true) => {
 	const date = require("date-and-time");
 	const now = new Date();
-	return date.format(now, "YYYY-MM-DD HH:mm:ss", true);
+	return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
 
 /************************************************************************************************

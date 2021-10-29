@@ -98,7 +98,7 @@ declare module "masternode" {
 		total: number;
 	}>;
 
-	function mysqlDate(): string;
+	function mysqlDate(utc?: boolean): string;
 	function mysqlSanitizeData(data: any): any;
 
 	function encrypt(text: string, key: string): Promise<any>;
