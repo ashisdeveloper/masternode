@@ -101,11 +101,11 @@ declare module "masternode" {
 	function mysqlDate(utc?: boolean): string;
 	function mysqlDate(utc?: boolean): string;
 	/**
-	 *Convert MySql UTC Date Time To Browser's local Date Time
-	 * @param mysqlTime - Eg: 2021-10-30T03:00:00.000Z, 2021-10-30 08:30:00
+	 *Convert UTC Date Time To Browser's local Date Time
+	 * @param dateTime - Eg: 2021-10-30T03:00:00.000Z, 2021-10-30 08:30:00
 	 * @param dtFormat  - Eg: DD MMM YYYY, hh:mmA, YYYY/MM/DD HH:mm:ss
 	 */
-	function mysqlDateTimeToLocal(mysqlTime: any, dtFormat?: string): string;
+	function utcToLocal(dateTime: any, dtFormat?: string): string;
 
 	function encrypt(text: string, key: string): Promise<any>;
 	function decrypt(text: string, key: string): Promise<any>;

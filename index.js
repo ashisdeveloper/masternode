@@ -327,11 +327,11 @@ const mysqlDate = (utc = true) => {
 	return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
 
-const mysqlDateTimeToLocal = (mysqlTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
-	if (mysqlTime != '' && mysqlTime != null && mysqlTime != undefined) {
+const utcToLocal = (dateTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
+	if (dateTime != '' && dateTime != null && dateTime != undefined) {
 		const date = require("date-and-time");
-		let dt = date.format(new Date(mysqlTime), 'YYYY/MM/DD HH:mm:ss')
-		let hr = date.format(new Date(mysqlTime), 'HH')
+		let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
+		let hr = date.format(new Date(dateTime), 'HH')
 		dt = dt + ' ' + (hr >= 12 ? 'PM' : 'AM') + ' UTC'
 		dt = new Date(dt)
 		dt = date.format(new Date(dt), dtFormat);
@@ -375,4 +375,4 @@ const decrypt = async (hash, key) => {
 	return result;
 };
 
-module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, mysqlDateTimeToLocal, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, randomNumber, mail, checkSMTP };
+module.exports = { request, nextRequest, userPermissions, mysqlQuery, mysqlProcedure, mysqlTableData, mysqlSanitizeData, mysqlDate, utcToLocal, encrypt, decrypt, strShorten, strShuffle, strUrl, strPhone, fileExtension, fileUpload, fileDelete, fileBytesConvert, randomNumber, mail, checkSMTP };
