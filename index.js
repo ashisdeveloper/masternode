@@ -328,13 +328,17 @@ const mysqlDate = (utc = true) => {
 };
 
 const mysqlDateTimeToLocal = (mysqlTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
-	const date = require("date-and-time");
-	let dt = date.format(new Date(mysqlTime), 'YYYY/MM/DD HH:mm:ss')
-	let hr = date.format(new Date(mysqlTime), 'HH')
-	dt = dt + ' ' + (hr >= 12 ? 'PM' : 'AM') + ' UTC'
-	dt = new Date(dt)
-	dt = date.format(new Date(dt), dtFormat);
-	return dt
+	if (mysqlTime != '' && mysqlTime != null && mysqlTime != undefined) {
+		const date = require("date-and-time");
+		let dt = date.format(new Date(mysqlTime), 'YYYY/MM/DD HH:mm:ss')
+		let hr = date.format(new Date(mysqlTime), 'HH')
+		dt = dt + ' ' + (hr >= 12 ? 'PM' : 'AM') + ' UTC'
+		dt = new Date(dt)
+		dt = date.format(new Date(dt), dtFormat);
+		return dt
+	} else {
+		return ''
+	}
 }
 
 /************************************************************************************************

@@ -28,7 +28,7 @@ declare module "masternode" {
 	function checkSMTP({ host, port, user, pass, secure }: { host?: string; port?: number; user?: string; pass?: string; secure?: boolean }): Promise<any>;
 
 	function fileExtension(filename: string): string;
-	function localDateTime(dateTime: any, dtFormat?: string): string;
+
 	/************************************************************************************************
 	 * options = { width: 200, height: null, quality: 50, keepOriginal: 0, pretext: 'min' }
 	 ************************************************************************************************/
@@ -99,7 +99,13 @@ declare module "masternode" {
 	}>;
 
 	function mysqlDate(utc?: boolean): string;
-	function mysqlSanitizeData(data: any): any;
+	function mysqlDate(utc?: boolean): string;
+	/**
+	 *Convert MySql UTC Date Time To Browser's local Date Time
+	 * @param mysqlTime - Eg: 2021-10-30T03:00:00.000Z, 2021-10-30 08:30:00
+	 * @param dtFormat  - Eg: DD MMM YYYY, hh:mmA, YYYY/MM/DD HH:mm:ss
+	 */
+	function mysqlDateTimeToLocal(mysqlTime: any, dtFormat?: string): string;
 
 	function encrypt(text: string, key: string): Promise<any>;
 	function decrypt(text: string, key: string): Promise<any>;
