@@ -328,8 +328,8 @@ const mysqlDate = (utc = true) => {
 };
 
 const utcToLocal = (dateTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
+	const date = require("date-and-time");
 	if (dateTime != '' && dateTime != null && dateTime != undefined) {
-		const date = require("date-and-time");
 		let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
 		let hr = date.format(new Date(dateTime), 'HH')
 		dt = dt + ' ' + (hr >= 12 ? 'PM' : 'AM') + ' UTC'
