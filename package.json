@@ -1,8 +1,9 @@
 {
   "name": "masternode",
-  "version": "3.3.7",
+  "version": "3.3.8",
   "description": "Node JS & Javascript functionalities",
   "main": "index.js",
+  "module": "index.es.js",
   "scripts": {
     "test": "ashis"
   },
