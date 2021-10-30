@@ -332,7 +332,14 @@ const utcToLocal = (dateTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
 	if (dateTime != '' && dateTime != null && dateTime != undefined) {
 		let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
 		let hr = date.format(new Date(dateTime), 'HH')
-		dt = dt + ' ' + (hr >= 12 ? 'PM' : 'AM') + ' UTC'
+		let tmp_hr = hr
+		hr = hr > 12 ? hr - 12 : hr
+		dt = dt + ' ' + (tmp_hr >= 12 ? 'PM' : 'AM') + ' UTC'
+		let arr = dt.split(' ')
+		let newArr = arr[1].split(':')
+		newArr[0] = hr
+		arr[1] = newArr.join(':')
+		dt = arr.join(' ')
 		dt = new Date(dt)
 		dt = date.format(new Date(dt), dtFormat);
 		return dt
