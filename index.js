@@ -1,5 +1,4 @@
-const date = require("date-and-time");
-
+import date from 'date-and-time';
 const request = async (url, data = {}, authorization = 0) => {
 	let method = Object.keys(data).length > 0 ? "POST" : "GET";
 	let result;
@@ -324,11 +323,13 @@ const mysqlTableData = async (reqData, procName, procAction, { host, user, passw
 }
 
 const mysqlDate = (utc = true) => {
+	// const date = require("date-and-time");
 	const now = new Date();
 	return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
 
 const utcToLocal = (dateTime, dtFormat = 'DD MMM YYYY hh:mmA') => {
+	// const date = require("date-and-time");
 	if (dateTime != '' && dateTime != null && dateTime != undefined) {
 		let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
 		let hr = date.format(new Date(dateTime), 'HH')
