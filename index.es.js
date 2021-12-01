@@ -212,7 +212,7 @@ export const strShuffle = (word) => {
 
 export const strUrl = (str) => {
     str = str.toLowerCase();
-    return str.replace(/(\s|\||\?|\#|_|&|;|\.)/g, "-").replace(/\-+/g, "-");
+    return str.replace(/(\s|\||\?|\#|_|&|;|\.)/g, "-").replace(/\-+/g, "-").replace(/(^-)+/, '').replace(/-+$/, '')
 };
 
 export const strPhone = (str) => {
