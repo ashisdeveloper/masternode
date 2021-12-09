@@ -316,8 +316,8 @@ export const mysqlTableData = async (reqData: any, procName: string, procAction:
   return { data: sqlData, total: total_rec }
 }
 
-export const mysqlDate = (utc: boolean = true) => {
-  // const date = require("date-and-time");
+export const mysqlDate = (utc: boolean = true, datePkg: any = null) => {
+  const date = require("date-and-time") || datePkg;
   const now = new Date();
   return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
