@@ -315,13 +315,25 @@ export const mysqlTableData = async (reqData: any, procName: string, procAction:
 }
 
 export const mysqlDate = (utc: boolean = true, datePkg: any = null) => {
-  const date = require("date-and-time") || datePkg;
+  let date: any = datePkg
+  try {
+    date = require("date-and-time")
+  } catch (error) {
+    date = datePkg
+  }
+  // const date = require("date-and-time")
   const now = new Date();
   return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
 
 export const utcToLocal = (dateTime: any, dtFormat: string = 'DD MMM YYYY hh:mmA', datePkg: any = null) => {
-  const date = require("date-and-time") || datePkg;
+  let date: any = datePkg
+  try {
+    date = require("date-and-time")
+  } catch (error) {
+    date = datePkg
+  }
+  // const date = require("date-and-time")
   if (dateTime != '' && dateTime != null && dateTime != undefined) {
     let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
     let hr = date.format(new Date(dateTime), 'HH')
