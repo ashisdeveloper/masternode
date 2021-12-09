@@ -1,5 +1,3 @@
-const date = require("date-and-time");
-
 export const sum = (a: number, b: number) => {
   if ('development' === process.env.NODE_ENV) {
     console.log('boop');
@@ -322,8 +320,8 @@ export const mysqlDate = (utc: boolean = true, datePkg: any = null) => {
   return date.format(now, "YYYY-MM-DD HH:mm:ss", utc);
 };
 
-export const utcToLocal = (dateTime: any, dtFormat: string = 'DD MMM YYYY hh:mmA') => {
-  // const date = require("date-and-time");
+export const utcToLocal = (dateTime: any, dtFormat: string = 'DD MMM YYYY hh:mmA', datePkg: any = null) => {
+  const date = require("date-and-time") || datePkg;
   if (dateTime != '' && dateTime != null && dateTime != undefined) {
     let dt = date.format(new Date(dateTime), 'YYYY/MM/DD HH:mm:ss')
     let hr = date.format(new Date(dateTime), 'HH')
