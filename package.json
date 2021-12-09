@@ -1,12 +1,7 @@
 {
   "name": "masternode",
-  "version": "3.4.6",
+  "version": "3.5.0",
   "description": "Node JS & Javascript functionalities",
-  "main": "index.js",
-  "module": "index.es.js",
-  "scripts": {
-    "test": "ashis"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ashisdeveloper/masternode.git"
@@ -23,12 +18,59 @@
     "url": "https://github.com/ashisdeveloper/masternode/issues"
   },
   "homepage": "https://github.com/ashisdeveloper/masternode#readme",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "module": "dist/masternode.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/masternode.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/masternode.esm.js",
+      "limit": "10 KB"
+    }
+  ],
   "dependencies": {},
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^7.0.3",
     "crypto": "^1.0.1",
     "date-and-time": "^2.0.1",
+    "husky": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.7.0",
-    "serverless-mysql": "^1.5.4"
+    "serverless-mysql": "^1.5.4",
+    "size-limit": "^7.0.4",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.2"
   }
 }
